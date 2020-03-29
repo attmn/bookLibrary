@@ -1,33 +1,73 @@
-const form = document.querySelector("#bookForm");
-
-function handleForm(event) {
-  event.preventDefault();
-  render();
-}
-form.addEventListener("submit", handleForm);
-
 let myLibrary = [];
 
-const book1 = new Book("Harry Potter", "J.R. Tolkien", 55, false);
-const book2 = new Book("God of War", "J.K. Rowling", 525, true);
-myLibrary.push(book1);
-myLibrary.push(book2);
+//Check if storage is available
+function storageAvailable(type) {
+  var storage;
+  try {
+    storage = window[type];
+    var x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === "QuotaExceededError" ||
+        // Firefox
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
+}
 
-function Book(title, author, pages, read) {
+//Save books to localstorage
+function saveLocal() {
+  if (storageAvailable("localStorage")) {
+    localStorage.clear();
+    for (let i = 0; i < myLibrary.length; i++) {
+      let title = myLibrary[i].title;
+      let author = myLibrary[i].author;
+      let pages = myLibrary[i].pages;
+      let status = myLibrary[i].status;
+      localStorage.setItem(`Book${i} Title`, title);
+      localStorage.setItem(`Book${i} Author`, author);
+      localStorage.setItem(`Book${i} Pages`, pages);
+      localStorage.setItem(`Book${i} Status`, status);
+    }
+  }
+}
+
+//Populates the books from localStorage
+function populateFromLocal() {
+  if (storageAvailable("localStorage")) {
+    for (let i = 0; i < localStorage.length / 4; i++) {
+      let title = localStorage.getItem(`Book${i} Title`);
+      let author = localStorage.getItem(`Book${i} Author`);
+      let pages = localStorage.getItem(`Book${i} Pages`);
+      let status = localStorage.getItem(`Book${i} Status`);
+      let createdBook = new Book(title, author, pages);
+      myLibrary.push(createdBook);
+      myLibrary[i].status = status;
+    }
+  }
+  render();
+}
+
+function Book(title, author, pages) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.read = read;
-  this.listInfo = function() {
-    let info = "";
-    if (read === true) {
-      info = `${title} by ${author}, ${pages} page(s), has been read`;
-    } else {
-      info = `${title} by ${author}, ${pages} page(s), not read yet`;
-    }
-    return info;
-  };
 }
+
+Book.prototype.status = false;
 
 function openNewBookForm() {
   document.querySelector("#newBookFormDiv").style.display = "block";
@@ -38,58 +78,89 @@ function closeNewBookForm() {
 }
 
 function addBookToLibrary() {
-  const bookTitle = document.querySelector("#bookTitle");
-  const bookAuthor = document.querySelector("#bookAuthor");
-  const bookPages = document.querySelector("#bookPages");
-  const bookRead = document.querySelector("#bookRead");
-
-  let book = new Book(
-    bookTitle.value,
-    bookAuthor.value,
-    bookPages.value,
-    bookRead.value
-  );
+  let book = new Book(bookTitle.value, bookAuthor.value, bookPages.value);
   myLibrary.push(book);
 }
 
-function render() {
-  const bookDiv = document.querySelector('#bookDiv')
-  for (let i = 0; i < myLibrary.length; i++) {
-    const div = document.createElement('table');
-    const tr1 = document.createElement('tr');
-    const tr2 = document.createElement('tr');
-    const tr3 = document.createElement('tr');
-    const tr4 = document.createElement('tr');
-
-    const bookTitle = document.createElement('td');
-    const bookAuthor = document.createElement('td');
-    const bookPages = document.createElement('td');
-    const bookRead = document.createElement('td');
-
-    div.classList.add('bookRender');
-
-    bookDiv.appendChild(div);
-    div.appendChild(tr1);
-    tr1.appendChild(bookTitle);
-    bookTitle.textContent = myLibrary[i].title;
-
-    div.appendChild(tr2);
-    tr2.appendChild(bookAuthor);
-    bookAuthor.textContent = `Author: ${myLibrary[i].author}`;
-
-    div.appendChild(tr3);
-    tr3.appendChild(bookPages);
-    bookPages.textContent = `Pages: ${myLibrary[i].pages}`;
-
-    div.appendChild(tr4);
-    tr4.appendChild(bookRead);
-    if (myLibrary[i].read == true) {
-      bookRead.textContent = "Finished: Yes";
-    } else {
-      bookRead.textContent = "Finished: No";
-    }
-    
-  }
+function deleteBook(i) {
+  myLibrary.splice(i, 1);
+  console.log(myLibrary);
+  render();
 }
 
-render();
+function readBook(i) {
+  if (myLibrary[i].status == true) {
+    myLibrary[i].status = false;
+  } else {
+    myLibrary[i].status = true;
+  }
+  render();
+}
+
+function render() {
+  const tableBody = document.querySelector("#tableBody");
+
+  //Clear table
+  while (tableBody.rows.length >= 1) {
+    tableBody.deleteRow(0);
+  }
+
+  //Set rows to odd or even for color coding
+  let situation1 = "";
+  let situation2 = "";
+  if (myLibrary.length % 2 === 0) {
+    situation1 = "even";
+    situation2 = "odd";
+  } else {
+    situation1 = "odd";
+    situation2 = "even";
+  }
+
+  //Append each book
+  for (let i = 0; i < myLibrary.length; i++) {
+    let row = tableBody.insertRow(0);
+
+    row.setAttribute("id", `row${i}`);
+
+    if (tableBody.rows.length % 2 === 0) {
+      row.classList.add(situation1);
+    } else {
+      row.classList.add(situation2);
+    }
+
+    let titleCell = row.insertCell(0);
+    let authorCell = row.insertCell(1);
+    let pagesCell = row.insertCell(2);
+    let statusCell = row.insertCell(3);
+    let deleteBtn = row.insertCell(4);
+
+    pagesCell.setAttribute("class", "toCenter");
+    statusCell.setAttribute("class", "toCenter");
+    deleteBtn.setAttribute("class", "toCenter");
+
+    titleCell.innerHTML = myLibrary[i].title;
+    authorCell.innerHTML = myLibrary[i].author;
+    pagesCell.innerHTML = myLibrary[i].pages;
+    if (myLibrary[i].status) {
+      statusCell.innerHTML = "Yes";
+    } else {
+      statusCell.innerHTML = "No";
+    }
+    deleteBtn.innerHTML = `<button class="deleteBtn" id="${i}" onclick="deleteBook(${this.id})">X</button>`;
+    statusCell.innerHTML = `<button class="deleteBtn" onclick="readBook(${i})">${myLibrary[i].status}</button>`;
+    deleteBtn.classList.add("deleteBtnColumn");
+    deleteBtn.setAttribute("id", i);
+  }
+  saveLocal();
+}
+
+//Prevent the form from refreshing page on submit
+const form = document.querySelector("#bookForm");
+
+function handleForm(event) {
+  event.preventDefault();
+  render();
+}
+form.addEventListener("submit", handleForm);
+
+populateFromLocal();

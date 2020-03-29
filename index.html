@@ -14,12 +14,23 @@
     </div>
 
     <div id="bookDiv">
+            <table id="bookTable">
+                <thead id="tableHead">
+                    <tr>
+                        <th id="titleCell">Title</th>
+                        <th id="authorCell">Author</th>
+                        <th id="pagesCell" class="toCenter">Pages</th>
+                        <th id="readCell" class="toCenter">Read?</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
     </div>
 
     <div id="newBookFormDiv"> <!-- Modal -->
-        <div id="formBackground"
         <button id="closeNewBookFormBtn" onclick="closeNewBookForm()">X</button>
         <form id="bookForm" onsubmit="addBookToLibrary()"><!-- Modal Content -->
+            <div id="formContainer">
             <label for="bookTitle">Book Title:</label><br> 
             <input type="text" id="bookTitle" name="bookTitle" required><br><br>
       
@@ -29,15 +40,9 @@
             <label for="bookPages">Pages:</label><br>
             <input type="text" id="bookPages" name="bookPages" required><br><br>
       
-            <label>Read?</label><br>
-            <input type="radio" id="bookRead" name="bookRead" value="true" required>
-            <label for="bookRead"> Yes</label><br>
-      
-            <input type="radio" id="bookNotRead" name="bookRead" value="false" required>
-            <label for="bookNotRead"> No</label><br>
-      
             <input type="submit">
-        </form>  
+            </div>
+        </form>
     </div>
 </body>
 <script type="text/javascript" src="scripts.js"></script>

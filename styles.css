@@ -1,50 +1,103 @@
-#newBookFormDiv {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: #474e5d;
-    padding-top: 50px;
-    opacity: 0.5;
-}
-
-#newBookBtn {
-    width: 100px;
-    height: 30px;
-    justify-self: right;
-}
-
-#bookForm {
-    background-color: #fff;
-    padding: 30px;
+* {
+  box-sizing: border-box;
 }
 
 #topBar {
-    display:grid;
-    grid-template-columns: auto auto;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+#newBookBtn {
+  width: 100px;
+  height: 30px;
+  justify-self: right;
+}
+
+#newBookFormDiv {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  padding-top: 50px;
+  justify-content: center;
+}
+
+#newBookFormDiv::after {
+  content: "";
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  background-color: #474e5d;
+}
+
+#formContainer {
+  padding: 16px;
+}
+
+#bookForm {
+  background-color: #fff;
+  margin: 5% auto 15% auto;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
 }
 
 #bookDiv {
-    display: grid;
-    grid-template-columns: repeat(auto-fill,300px);
-    grid-column-gap: 30px;
+  display: grid;
 }
 
-.bookRender {
-    width: 300px;
-    height: 300px;
-    margin: 5px;
-    border-spacing: 10px;
-    border: 1px solid rgb(221, 221, 221);
+#bookTable {
+  justify-self: center;
+  width: 80%;
+  height: 100px;
+  margin: 5px;
+  border: 1px solid rgb(204, 204, 204);
+  border-collapse: collapse;
+}
+
+tr,
+th {
+  height: 50px;
+}
+
+td {
+   padding: 10px;
+}
+
+.even {
+    background-color: rgb(243, 243, 243);
+}
+
+.toCenter {
+  text-align: center;
+}
+
+.deleteBtnColumn {
+    width: 50px;
+}
+
+.deleteBtn {
 }
 
 .bookRender tr:nth-child(even) {
-    background-color: #eee;
-  }
+  background-color: #eee;
+}
 .bookRender tr:nth-child(odd) {
-    background-color: #fff;
-  }
+  background-color: #fff;
+}
