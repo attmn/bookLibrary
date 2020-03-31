@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="styles.css" media="screen">
 </head>
 </head>
 <body>
     <div id="topBar">
-        <h2 class="title">Library:</h2>
-        <button id="newBookBtn" onclick="openNewBookForm()">New Book</button>
+        <h2 id="pageTitle">Book Library</h2>
+        <button id="newBookBtn" onclick="openNewBookForm()">+</button>
     </div>
 
     <div id="bookDiv">
@@ -20,7 +21,7 @@
                         <th id="titleCell">Title</th>
                         <th id="authorCell">Author</th>
                         <th id="pagesCell" class="toCenter">Pages</th>
-                        <th id="readCell" class="toCenter">Read?</th>
+                        <th id="readCell" class="toCenter">Status</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -44,6 +45,22 @@
             </div>
         </form>
     </div>
+
+    
+    <pre id="object"></pre>
+    <ul id="list"></ul>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+
+     <!-- TODO: Add SDKs for Firebase products that you want to use 
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+    
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
+    
 </body>
-<script type="text/javascript" src="scripts.js"></script>
+
 </html>

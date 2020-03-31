@@ -1,16 +1,43 @@
+body {
+  font-family: 'Roboto';
+  font-weight: 300;
+}
+
 * {
   box-sizing: border-box;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 #topBar {
-  display: grid;
-  grid-template-columns: auto auto;
+
+}
+
+#pageTitle {
+  text-align: center;
 }
 
 #newBookBtn {
-  width: 100px;
-  height: 30px;
-  justify-self: right;
+  width: 40px;
+  height: 40px;
+  border: 0px;
+  border-radius: 100%;
+  position: fixed;
+  top: 2em;
+  right: 2em;
+  font-size: 40px;
+  text-align: center;
+  line-height: 0;
+  font-family: 'Roboto';
+  font-weight: 350;
+  color: white;
+  background-color: rgb(179, 233, 255);
+}
+
+#newBookBtn:hover {
+  background-color: rgb(101, 211, 255);
 }
 
 #newBookFormDiv {
@@ -67,25 +94,47 @@ input[type="text"] {
   width: 80%;
   height: 100px;
   margin: 5px;
-  border: 1px solid rgb(204, 204, 204);
+  border: none;
+  box-shadow: #ddd 1px 1px 5px;
   border-collapse: collapse;
 }
 
 tr,
 th {
+  text-align: left;
   height: 50px;
+  padding: 10px;
 }
 
 td {
+  line-height: 0;
    padding: 10px;
 }
 
 .even {
-    background-color: rgb(243, 243, 243);
+    background-color: #f3f3f3;
 }
 
 .toCenter {
   text-align: center;
+}
+
+.statusBtn {
+  width: 120px;
+  height: 25px;
+  line-height: 0;
+  border: 0;
+  border-radius: 10%;
+}
+
+.statusTrue {
+  background-color: #dbffdb;
+  color: #006200;
+}
+
+.statusFalse {
+  background-color: #ffdddd;
+  color: #6a0000;
 }
 
 .deleteBtnColumn {
@@ -93,6 +142,24 @@ td {
 }
 
 .deleteBtn {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  text-align: center;
+  line-height: 0;
+  background: none;
+  border: 0;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 40px;
+  color: rgb(119, 0, 0);
+}
+
+.deleteBtn:hover {
+  border-radius: 100%;
+  background-color: rgb(179, 54, 54);
+  color: #fff;
+  font-weight: 300;
 }
 
 .bookRender tr:nth-child(even) {
