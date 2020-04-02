@@ -231,22 +231,24 @@ function render() {
       statusCell.innerHTML = `<button class="statusBtn statusFalse" id="status${i}" onclick="readBook(${i})">NOT COMPLETED</button>`;
     }
 
-    
     const statusBtn = document.getElementById(`status${i}`);
     statusBtn.addEventListener("mouseover", () => {
       statusBtn.style.backgroundColor = "white";
       statusBtn.style.color = "black";
-      statusBtn.innerText = "CHANGE"
-    }); 
+      statusBtn.innerText = "CHANGE";
+    });
+    statusBtn.addEventListener("focus", () => {
+      statusBtn.innerText = "CHANGED";
+    });
     statusBtn.addEventListener("mouseout", () => {
-      if(myLibrary[i].status == true) {
-        statusBtn.innerText = "COMPLETED"
+      if (myLibrary[i].status == true) {
+        statusBtn.innerText = "COMPLETED";
       } else {
-        statusBtn.innerText = "NOT COMPLETED"
+        statusBtn.innerText = "NOT COMPLETED";
       }
       statusBtn.style.backgroundColor = "";
       statusBtn.style.color = "";
-    }); 
+    });
   }
 }
 
